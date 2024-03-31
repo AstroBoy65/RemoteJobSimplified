@@ -1,1 +1,2 @@
-https://remotejobsimplified.onrender.com/get-job
+https://remotejobsimplified.onrender.com
+
