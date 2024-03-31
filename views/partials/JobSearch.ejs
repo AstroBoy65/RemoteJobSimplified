@@ -1,0 +1,60 @@
+<%-include('navbar.ejs')%>
+
+<div class="text-center " id="container" >
+    <h2 class="display-7 fw-bold text-body-emphasis mt-5 mb-5">Search jobs here!</h2>
+
+    <br />
+
+  <form class="ms-5 me-5 px-5 " role="search" action="/get-job" method="POST">
+      <input class="form-control bg-secondary-subtle" name="inputSearch" type="search" name="query" placeholder="Job title or skill" aria-label="Search">
+
+   <div class='row justify-content-center mb-5 '>
+    <div class="col-md-2 g-3 wrapper">
+      <select name="inputRegion" class="form-select bg-secondary-subtle" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+          <option selected>Region</option>
+          <% uniqueGeos.forEach(geo => { %>
+            <option><%= geo %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="col-md-2 g-3 wrapper">
+      <select name="inputCategory" class="form-select bg-secondary-subtle" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+          <option selected>Category</option>
+          <% uniqueIndustry.forEach(industry => { %>
+              <option><%= industry %></option>
+          <% }) %>
+      </select>
+    </div>
+
+   
+    <div class="col-md-2 g-3 wrapper">
+      <select name="inputJobType" class="form-select bg-secondary-subtle" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+        <option selected>Job Type</option>
+        <option>Contract</option>
+        <option>Full Time</option>
+        <option>Internship</option>
+        <option>PartTime</option>
+      </select>
+    </div>
+
+     <div class="col-md-2 g-3 wrapper">
+      <select name="inputMore" class="form-select bg-secondary-subtle" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+        <option selected>More</option>
+        <option>Past 3 days</option>
+      </select>
+    </div>
+
+    <div class="col-md-2 g-3 wrapper">
+      <button class="btn btn-md btn-primary me-md-5" type="submit" value="POST">Search</button>
+    </div>
+
+  </div>
+  </form>
+
+  <br />
+  <%-include('results.ejs')%>
+</div>
+
+
+<%-include('footer.ejs')%>

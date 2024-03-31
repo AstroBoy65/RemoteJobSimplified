@@ -1,0 +1,49 @@
+
+<div class="mt-5 mb-5 me-5 ms-5">
+    <ul>
+        <% if (locals.jobs) { %>
+            <% jobs.forEach(job => { %>
+                <a href="<%=job.url %>" class="text-decoration-none pb-5">
+                    
+                    <div class="card">
+                        
+                        <h5 class="card-header bg-dark text-light lh-base"> <%= job.jobTitle %></h5>
+                        <div class="card-body bg-light lh-base">
+                            <img src="<%= job.companyLogo %>" alt="job logo" class="rounded" height="100">
+                            <h5 class="card-title lh-base">
+                                <%= job.companyName %>
+                            </h5>
+                            <p class="card-text lh-base"><%= job.jobExcerpt %></p>
+                        </div>
+                    </div>
+                </a> 
+            <% }) %>
+        <% } %>
+    </ul>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-lg">
+      <li class="page-item">
+        <a class="page-link ton" id="prevPage" href="?page=<% if (currentPage > 1) { %>
+            <%= currentPage - 1 %>
+        <% } else { %>
+            <%= currentPage %>
+            <% } %>
+         &" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><span class="page-link text-dark" id="currentPage"><%= currentPage %>/<%= totalPages %> </span></li>
+      <li class="page-item">
+        <a class="page-link ton" href="?page=<% if (currentPage === totalPages ) { %>
+            <%= currentPage %>
+        <% } else { %>
+            <%= currentPage + 1%>
+        <% } %>
+         &" aria-label="Next" id="nextPage">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>

@@ -1,0 +1,33 @@
+html, body{
+    height: 100%;
+}
+
+#container{
+    min-height: 100%;
+}
+
+
+.wrapper{
+    max-height: 150px;
+    width: 250px;
+}
+
+.nav-link:hover{
+    border: 1px solid whitesmoke;
+}
+.dropdown-item:hover{
+    border: 1px solid black;
+}
+
+.ton:hover{
+    text-decoration: 2px underline lightskyblue;
+}
+
+
+option {
+    padding: .5em;
+    &:hover {
+        border-radius: 10px;
+        border: 1px solid black;
+    }
+}
