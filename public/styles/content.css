@@ -31,3 +31,10 @@ option {
         border: 1px solid black;
     }
 }
+
+@media (max-width:600px){
+    .pic {
+        height: 250px;
+        width: 250px;
+    }
+}

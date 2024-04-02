@@ -10,7 +10,7 @@ const API_URL3 = "https://jobicy.com/api/v2/remote-jobs?get=locations";
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
 
 app.get('/', (req, res) => {
     res.render('index.ejs'); 
@@ -28,6 +28,9 @@ app.get('/JobSearch', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 5; 
+        
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
 
         const result = await axios.get(API_URL);
         const response = await axios.get(API_URL2);
@@ -45,6 +48,23 @@ app.get('/JobSearch', async (req, res) => {
             jobExcerpt: he.decode(job.jobExcerpt),
         }));
 
+        if (startIndex > 0 ) {
+             result.previous = {
+            page: page - 1, 
+            limit: limit
+        }  
+        }
+        if(endIndex < result.length){
+             result.next = {
+            page: page + 1,
+            limit: limit,
+        }
+        }
+      
+       
+       
+
+
         const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoName)))];
         const uniqueIndustry = [...new Set(response.data.industries.map(industry => he.decode(industry.industrySlug)))];
         
@@ -52,10 +72,6 @@ app.get('/JobSearch', async (req, res) => {
         
         const totalJobs = result.data.jobs.length;
         const totalPages = Math.ceil(totalJobs / limit);
-        
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        
         const jobsOnPage = formattedJobs.slice(startIndex, endIndex);
         
         res.render("partials/JobSearch.ejs", { 
@@ -75,13 +91,17 @@ app.get('/JobSearch', async (req, res) => {
 app.post('/get-job', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; 
-        const limit = parseInt(req.query.limit) || 5; 
+        const limit = parseInt(req.query.limit) || 5;
+        
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
 
-        const lookUp = req.body.inputSearch;
-        const place = req.body.inputRegion.toLowerCase().replace(/\s/g, "");
-        const work = req.body.inputCategory;
-        const type = req.body.inputJobType.toLowerCase().replace(/\s/g, "");
+        const lookUp = (req.body.inputSearch || "").replace(/\s/g, "+");
+        const place = (req.body.inputRegion || "").toLowerCase().replace(/\s/g, "");
+        const work = (req.body.inputCategory || "").toLowerCase().replace(/\s/g, "");
+        const type = req.body.inputJobType;
         const more = req.body.inputMore;
+
 
         
         const response = await axios.get(API_URL2);
@@ -89,24 +109,21 @@ app.post('/get-job', async (req, res) => {
 
         let apiUrl = `${API_URL}?`;
 
-        if (place === "region") {
-            
-        } else {
+        if (place === "region") {} 
+        else {
             apiUrl += `geo=${place}&`;
         }
 
 
-        if (work === "category") {
-            
-        } else {
+        if (work === "category") {}
+         else {
             apiUrl += `industry=${work}&`;
         }
-        if (lookUp === "") {
-            
-        } else {
+        
+        if (lookUp) {
             apiUrl += `tag=${lookUp}&`;
         }
-
+        
 
         if (more === "Past 3 days") {
             apiUrl += `count=3&`;
@@ -130,6 +147,19 @@ app.post('/get-job', async (req, res) => {
             jobExcerpt: he.decode(job.jobExcerpt),
         }));
 
+        if (startIndex > 0 ) {
+            apiUrl2.previous = {
+           page: page - 1, 
+           limit: limit
+       }  
+       }
+       if(endIndex < apiUrl2.length){
+            apiUrl2.next = {
+           page: page + 1,
+           limit: limit,
+       }
+       }
+
         const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoName)))];
         const uniqueIndustry = [...new Set(response.data.industries.map(industry => he.decode(industry.industrySlug)))];
         
@@ -139,8 +169,6 @@ app.post('/get-job', async (req, res) => {
         const totalJobs = apiUrl2.data.jobs.length;
         const totalPages = Math.ceil(totalJobs / limit);
         
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
         
         const jobsOnPage = formattedJobs.slice(startIndex, endIndex);
         
@@ -151,7 +179,11 @@ app.post('/get-job', async (req, res) => {
             uniqueGeos: uniqueGeos,
             uniqueIndustry: uniqueIndustry,
         });
-        
+         console.log(apiUrl);
+         console.log(lookUp);
+         console.log(type);
+         console.log(req.body);
+         console.log(page);
         
         
     } catch (error) {
