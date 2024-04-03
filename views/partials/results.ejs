@@ -1,12 +1,9 @@
-
 <div class="mt-5 mb-5 me-5 ms-5">
     <ul>
-        <% if (locals.jobs) { %>
+        <% if (locals.jobs && jobs.length > 0) { %>
             <% jobs.forEach(job => { %>
-                <a href="<%=job.url %>" class="text-decoration-none pb-5">
-                    
+                <a href="<%= job.url %>" class="text-decoration-none pb-5">
                     <div class="card">
-                        
                         <h5 class="card-header bg-dark text-light lh-base"> <%= job.jobTitle %></h5>
                         <div class="card-body bg-light lh-base">
                             <img src="<%= job.companyLogo %>" alt="job logo" class="rounded" height="100">
@@ -18,8 +15,10 @@
                     </div>
                 </a> 
             <% }) %>
+        <% } else { %>
+            <h1>No results found</h1>
         <% } %>
-            </ul>
-  
+    </ul>
 </div>
+
 

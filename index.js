@@ -40,7 +40,7 @@ app.get('/JobSearch', async (req, res) => {
             jobExcerpt: he.decode(job.jobExcerpt),
         }));
 
-        const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoName)))];
+        const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoSlug)))];
         const uniqueIndustry = [...new Set(response.data.industries.map(industry => he.decode(industry.industrySlug)))];
         
         const limitedJobs = formattedJobs.slice(0, 15); 
@@ -103,7 +103,7 @@ app.post('/get-job', async (req, res) => {
             jobExcerpt: he.decode(job.jobExcerpt),
         }));
 
-        const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoName)))];
+        const uniqueGeos = [...new Set(told.data.locations.map(location => he.decode(location.geoSlug)))];
         const uniqueIndustry = [...new Set(response.data.industries.map(industry => he.decode(industry.industrySlug)))];
         
         const limitedJobs = formattedJobs.slice(0, 15); 
