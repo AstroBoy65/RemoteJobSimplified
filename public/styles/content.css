@@ -32,9 +32,9 @@ option {
     }
 }
 
-@media (max-width:600px){
+@media (max-width:630px){
     .pic {
         height: 250px;
-        width: 250px;
+        width: 350px;
     }
 }

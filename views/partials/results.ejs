@@ -19,31 +19,7 @@
                 </a> 
             <% }) %>
         <% } %>
-    </ul>
+            </ul>
+  
 </div>
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center pagination-lg">
-      <li class="page-item">
-        <a class="page-link ton" id="prevPage" href="?page=<% if (currentPage > 1) { %>
-            <%= currentPage - 1 %>
-        <% } else { %>
-            <%= currentPage %>
-            <% } %>
-         &" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item"><span class="page-link text-dark" id="currentPage"><%= currentPage %>/<%= totalPages %> </span></li>
-      <li class="page-item">
-        <a class="page-link ton" href="?page=<% if (currentPage === totalPages ) { %>
-            <%= currentPage %>
-        <% } else { %>
-            <%= currentPage + 1%>
-        <% } %>
-         &" aria-label="Next" id="nextPage">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
